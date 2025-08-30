@@ -1,0 +1,305 @@
+### VS Code REST Client - API Test Collection
+# Değişkenler
+@baseUrl = http://localhost:8000
+@json = application/json
+# Eğer JWT/Token kullanacaksanız buraya ekleyin
+@authToken =
+
+### HEALTH CHECK (Laravel 11 default)
+GET {{baseUrl}}/up
+
+### ------------------------------
+### CUSTOMERS
+### ------------------------------
+
+# List Customers (paginate)
+GET {{baseUrl}}/api/customers
+Authorization: Bearer {{authToken}}
+
+###
+# Create Customer
+POST {{baseUrl}}/api/customers
+Content-Type: {{json}}
+Authorization: Bearer {{authToken}}
+
+{
+  "company_name": "ABC Şirketi",
+  "contact_person": "Ahmet Yılmaz",
+  "email": "ahmet@example.com",
+  "phone": "+90 555 000 00 00",
+  "address": "İstanbul",
+  "tax_number": "1234567890"
+}
+
+###
+# Show Customer
+GET {{baseUrl}}/api/customers/1
+Authorization: Bearer {{authToken}}
+
+###
+# Update Customer (partial)
+PUT {{baseUrl}}/api/customers/1
+Content-Type: {{json}}
+Authorization: Bearer {{authToken}}
+
+{
+  "company_name": "ABC Teknoloji A.Ş.",
+  "phone": "+90 555 111 11 11"
+}
+
+###
+# Delete Customer
+DELETE {{baseUrl}}/api/customers/1
+Authorization: Bearer {{authToken}}
+
+
+### ------------------------------
+### SERVICE CATEGORIES
+### ------------------------------
+
+# List Service Categories
+GET {{baseUrl}}/api/service-categories
+
+###
+# Create Service Category
+POST {{baseUrl}}/api/service-categories
+Content-Type: {{json}}
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "Web Hizmetleri",
+  "description": "Web geliştirme ile ilgili hizmetler",
+  "is_active": true
+}
+
+###
+# Show Service Category
+GET {{baseUrl}}/api/service-categories/1
+
+###
+# Update Service Category
+PUT {{baseUrl}}/api/service-categories/1
+Content-Type: {{json}}
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "Dijital Hizmetler",
+  "is_active": true
+}
+
+###
+# Delete Service Category
+DELETE {{baseUrl}}/api/service-categories/1
+Authorization: Bearer {{authToken}}
+
+
+### ------------------------------
+### SERVICES
+### ------------------------------
+
+# List Services (with category)
+GET {{baseUrl}}/api/services
+
+###
+# Create Service
+POST {{baseUrl}}/api/services
+Content-Type: {{json}}
+Authorization: Bearer {{authToken}}
+
+{
+  "category_id": 1,
+  "name": "Web Sitesi Tasarımı",
+  "description": "Kurumsal web sitesi tasarımı",
+  "unit_price": 5000.00,
+  "unit": "adet",
+  "is_active": true
+}
+
+###
+# Show Service
+GET {{baseUrl}}/api/services/1
+
+###
+# Update Service
+PUT {{baseUrl}}/api/services/1
+Content-Type: {{json}}
+Authorization: Bearer {{authToken}}
+
+{
+  "unit_price": 6500.00,
+  "description": "Kurumsal web sitesi tasarımı (güncel)"
+}
+
+###
+# Delete Service
+DELETE {{baseUrl}}/api/services/1
+Authorization: Bearer {{authToken}}
+
+
+### ------------------------------
+### QUOTES
+### ------------------------------
+
+# List Quotes (with customer, items)
+GET {{baseUrl}}/api/quotes
+Authorization: Bearer {{authToken}}
+
+###
+# Create Quote
+POST {{baseUrl}}/api/quotes
+Content-Type: {{json}}
+Authorization: Bearer {{authToken}}
+
+{
+  "customer_id": 1,
+  "quote_number": "QUO-2025-0001",
+  "title": "Kurumsal Web Sitesi Teklifi",
+  "description": "Özel tema ve responsive tasarım",
+  "subtotal": 8000.00,
+  "tax_rate": 20.00,
+  "tax_amount": 1600.00,
+  "total_amount": 9600.00,
+  "status": "draft",
+  "valid_until": "2025-12-31",
+  "notes": "30 gün geçerlidir"
+}
+
+###
+# Show Quote
+GET {{baseUrl}}/api/quotes/1
+Authorization: Bearer {{authToken}}
+
+###
+# Update Quote
+PUT {{baseUrl}}/api/quotes/1
+Content-Type: {{json}}
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "Kurumsal Web Sitesi + SEO Teklifi",
+  "subtotal": 9000.00,
+  "tax_amount": 1800.00,
+  "total_amount": 10800.00,
+  "status": "sent"
+}
+
+###
+# Delete Quote
+DELETE {{baseUrl}}/api/quotes/1
+Authorization: Bearer {{authToken}}
+
+
+### ------------------------------
+### QUOTE ITEMS
+### ------------------------------
+
+# List Quote Items
+GET {{baseUrl}}/api/quote-items
+Authorization: Bearer {{authToken}}
+
+###
+# Create Quote Item
+POST {{baseUrl}}/api/quote-items
+Content-Type: {{json}}
+Authorization: Bearer {{authToken}}
+
+{
+  "quote_id": 1,
+  "service_id": 1,
+  "service_name": "Web Sitesi Tasarımı",
+  "quantity": 1,
+  "unit_price": 5000.00,
+  "subtotal": 5000.00
+}
+
+###
+# Show Quote Item
+GET {{baseUrl}}/api/quote-items/1
+Authorization: Bearer {{authToken}}
+
+###
+# Update Quote Item
+PUT {{baseUrl}}/api/quote-items/1
+Content-Type: {{json}}
+Authorization: Bearer {{authToken}}
+
+{
+  "quantity": 2,
+  "subtotal": 10000.00
+}
+
+###
+# Delete Quote Item
+DELETE {{baseUrl}}/api/quote-items/1
+Authorization: Bearer {{authToken}}
+
+
+### ------------------------------
+### PUBLIC: QUOTE REQUESTS
+### ------------------------------
+
+# Create Quote Request (Public)
+POST {{baseUrl}}/api/quote-requests
+Content-Type: {{json}}
+
+{
+  "company_name": "XYZ Bilişim",
+  "contact_person": "Mehmet Demir",
+  "email": "mehmet@example.com",
+  "phone": "+90 555 222 22 22",
+  "address": "Ankara",
+  "tax_number": "9876543210",
+  "title": "Kurumsal Site Talebi",
+  "description": "5 sayfalık kurumsal site",
+  "valid_until": "2025-12-31",
+  "notes": "Geri dönüş rica ederim"
+}
+
+
+### ------------------------------
+### QUOTES: PDF & STATUS
+### ------------------------------
+
+# Get Quote PDF
+GET {{baseUrl}}/api/quotes/1/pdf
+Authorization: Bearer {{authToken}}
+Accept: application/pdf
+
+>> ./storage/app/tmp/quote-1.pdf
+
+###
+# Update Quote Status
+PUT {{baseUrl}}/api/quotes/1/status
+Content-Type: {{json}}
+Authorization: Bearer {{authToken}}
+
+{
+  "status": "sent"
+}
+
+
+### ------------------------------
+### AUTH
+### ------------------------------
+
+# Login
+# @name login
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{json}}
+
+{
+  "email": "admin@example.com",
+  "password": "password"
+}
+
+> {% client.global.set("authToken", response.body.access_token); %}
+
+###
+# Logout
+POST {{baseUrl}}/api/auth/logout
+Authorization: Bearer {{authToken}}
+
+###
+# Me
+GET {{baseUrl}}/api/auth/me
+Authorization: Bearer {{authToken}}
