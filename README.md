@@ -1,15 +1,22 @@
-💼 Fiyat Teklifi Sistemi
-📋 Proje Tanımı
+# 💼 Fiyat Teklifi Sistemi
+
+## 📋 Proje Tanımı
+
 Küçük işletmelerin müşteri taleplerine göre profesyonel fiyat teklifleri hazırlayabileceği, hizmet katalogu yönetebileceği ve teklif süreçlerini takip edebileceği sistem.
 
-🎯 Proje Hedefleri
-Müşteri talep formu yönetimi
-Hizmet/ürün katalogu oluşturma
-Otomatik fiyat hesaplama
-Profesyonel teklif PDF oluşturma
-Teklif durumu takibi
-🗺️ Veritabanı Yapısı
-1. customers (Müşteriler)
+## 🎯 Proje Hedefleri
+
+- Müşteri talep formu yönetimi
+- Hizmet/ürün katalogu oluşturma
+- Otomatik fiyat hesaplama
+- Profesyonel teklif PDF oluşturma
+- Teklif durumu takibi
+
+## 🗺️ Veritabanı Yapısı
+
+### 1. customers (Müşteriler)
+
+```sql
 id (Primary Key)
 company_name (varchar 255) - Şirket adı
 contact_person (varchar 255) - İletişim kişisi
@@ -19,14 +26,22 @@ address (text) - Adres
 tax_number (varchar 20) - Vergi numarası
 created_at (timestamp)
 updated_at (timestamp)
-2. service_categories (Hizmet Kategorileri)
+```
+
+### 2. service_categories (Hizmet Kategorileri)
+
+```sql
 id (Primary Key)
 name (varchar 100) - Kategori adı
 description (text) - Kategori açıklaması
 is_active (boolean) - Aktif/pasif durumu
 created_at (timestamp)
 updated_at (timestamp)
-3. services (Hizmetler)
+```
+
+### 3. services (Hizmetler)
+
+```sql
 id (Primary Key)
 category_id (Foreign Key) - service_categories.id
 name (varchar 255) - Hizmet adı
@@ -36,7 +51,11 @@ unit (varchar 50) - Birim (saat, adet, m2, vb.)
 is_active (boolean) - Aktif/pasif durumu
 created_at (timestamp)
 updated_at (timestamp)
-4. quotes (Teklifler)
+```
+
+### 4. quotes (Teklifler)
+
+```sql
 id (Primary Key)
 customer_id (Foreign Key) - customers.id
 quote_number (varchar 50) - Teklif numarası
@@ -51,7 +70,11 @@ valid_until (date) - Geçerlilik tarihi
 notes (text) - Notlar
 created_at (timestamp)
 updated_at (timestamp)
-5. quote_items (Teklif Kalemleri)
+```
+
+### 5. quote_items (Teklif Kalemleri)
+
+```sql
 id (Primary Key)
 quote_id (Foreign Key) - quotes.id
 service_id (Foreign Key) - services.id
@@ -61,12 +84,21 @@ unit_price (decimal 10,2) - Birim fiyat
 subtotal (decimal 10,2) - Ara toplam
 created_at (timestamp)
 updated_at (timestamp)
-🔌 API Endpoint'leri
-Public Endpoints
+```
+
+## 🔌 API Endpoint'leri
+
+### Public Endpoints
+
+```
 GET /api/services - Hizmet listesi
 GET /api/service-categories - Hizmet kategorileri
 POST /api/quote-requests - Teklif talebi oluştur
-Business Endpoints (JWT korumalı)
+```
+
+### Business Endpoints (JWT korumalı)
+
+```
 GET /api/customers - Müşteri listesi
 POST /api/customers - Müşteri oluştur
 PUT /api/customers/{id} - Müşteri güncelle
@@ -80,25 +112,39 @@ PUT /api/quotes/{id}/status - Teklif durumu güncelle
 POST /api/services - Hizmet oluştur
 PUT /api/services/{id} - Hizmet güncelle
 DELETE /api/services/{id} - Hizmet sil
-Auth Endpoints
+```
+
+### Auth Endpoints
+
+```
 POST /api/auth/login - Giriş yap
 POST /api/auth/logout - Çıkış yap
 GET /api/auth/me - Kullanıcı bilgileri
-🧭 Menü Yapısı
-Ana Menü
-🏠 Ana Sayfa
-📋 Teklif Talep Et
-📞 İletişim
-👤 Giriş
-Business Menü (Giriş yapıldıktan sonra)
-📈 Dashboard
-📄 Teklif Yönetimi
-👥 Müşteri Yönetimi
-🛠️ Hizmet Yönetimi
-📁 Kategori Yönetimi
-👤 Profil
-🎨 UI Yapısı (Quasar)
-1. Ana Sayfa (/)
+```
+
+## 🧭 Menü Yapısı
+
+### Ana Menü
+
+- 🏠 Ana Sayfa
+- 📋 Teklif Talep Et
+- 📞 İletişim
+- 👤 Giriş
+
+### Business Menü (Giriş yapıldıktan sonra)
+
+- 📈 Dashboard
+- 📄 Teklif Yönetimi
+- 👥 Müşteri Yönetimi
+- 🛠️ Hizmet Yönetimi
+- 📁 Kategori Yönetimi
+- 👤 Profil
+
+## 🎨 UI Yapısı (Quasar)
+
+### 1. Ana Sayfa (/)
+
+```
 +----------------------------------+
 |  Header (Logo + Menü)            |
 +----------------------------------+
@@ -117,7 +163,11 @@ Business Menü (Giriş yapıldıktan sonra)
 +----------------------------------+
 |  Footer                          |
 +----------------------------------+
-2. Teklif Talep Formu (/quote-request)
+```
+
+### 2. Teklif Talep Formu (/quote-request)
+
+```
 +----------------------------------+
 |  Header                          |
 +----------------------------------+
@@ -139,7 +189,11 @@ Business Menü (Giriş yapıldıktan sonra)
 +----------------------------------+
 |  [Teklif Talep Et]               |
 +----------------------------------+
-3. Business Dashboard (/dashboard)
+```
+
+### 3. Business Dashboard (/dashboard)
+
+```
 +----------------------------------+
 |  Business Header + Menü          |
 +----------------------------------+
@@ -152,7 +206,11 @@ Business Menü (Giriş yapıldıktan sonra)
 +----------------------------------+
 |  Aylık Performans (Chart)        |
 +----------------------------------+
-4. Teklif Oluştur (/quotes/create)
+```
+
+### 4. Teklif Oluştur (/quotes/create)
+
+```
 +----------------------------------+
 |  Business Header                 |
 +----------------------------------+
@@ -173,7 +231,11 @@ Business Menü (Giriş yapıldıktan sonra)
 |  Toplam: ₺15.750,00              |
 |  [Taslak Kaydet] [Teklif Gönder] |
 +----------------------------------+
-5. Teklif Listesi (/quotes)
+```
+
+### 5. Teklif Listesi (/quotes)
+
+```
 +----------------------------------+
 |  Business Header                 |
 +----------------------------------+
@@ -185,7 +247,11 @@ Business Menü (Giriş yapıldıktan sonra)
 +----------------------------------+
 |  Sayfalama                       |
 +----------------------------------+
-6. Teklif PDF Görüntüle (/quotes/:id/pdf)
+```
+
+### 6. Teklif PDF Görüntüle (/quotes/:id/pdf)
+
+```
 +----------------------------------+
 |  ŞİRKET LOGO                     |
 |                                  |
@@ -209,7 +275,11 @@ Business Menü (Giriş yapıldıktan sonra)
 +----------------------------------+
 |  [Yazdır] [İndir]                |
 +----------------------------------+
-7. Hizmet Yönetimi (/services)
+```
+
+### 7. Hizmet Yönetimi (/services)
+
+```
 +----------------------------------+
 |  Business Header                 |
 +----------------------------------+
@@ -221,54 +291,71 @@ Business Menü (Giriş yapıldıktan sonra)
 +----------------------------------+
 |  Sayfalama                       |
 +----------------------------------+
-🎓 Öğrenim Kazanımları
-Laravel API
-✅ Karmaşık iş akışı yönetimi
-✅ PDF oluşturma (DomPDF/TCPDF)
-✅ Teklif numarası oluşturma
-✅ Vergi hesaplama mantığı
-✅ Durum iş akışı yönetimi
-✅ Mali hesaplamalar
-✅ Email notification system
-Vue.js + Quasar
-✅ Dinamik form oluşturma
-✅ PDF görüntüleyici entegrasyonu
-✅ Yazdırma işlevi
-✅ Chart.js analitik için
-✅ Gelişmiş tablo operasyonları
-✅ Çok aşamalı form sihirbazı
-✅ Para birimi biçimi
-✅ Tarih seçici entegrasyonu
-Genel Beceriler
-✅ İş akışı otomasyonu
-✅ Teklif oluşturma iş akışı
-✅ Müşteri ilişkileri yönetimi
-✅ Mali belge oluşturma
-✅ Hizmet kataloğu yönetimi
-✅ İş analitiği
-🚀 Geliştirme Adımları
-1. Backend (Laravel API)
-Migration'ları oluştur
-Model'leri ve ilişkileri tanımla
-Quote number generation logic
-PDF generation service
-Email notification system
-Tax calculation methods
-2. Frontend (Quasar)
-Business dashboard component'i
-Quote builder component'i
-PDF viewer component'i
-Customer management interface
-Service catalog interface
-Analytics dashboard
-3. Test ve Optimizasyon
-Quote generation flow'unu test et
-PDF creation'u test et
-Email notification'ları test et
-Financial calculation'ları test et
-📝 Notlar
-Proje 2 kişilik grup için 3 günde tamamlanabilir
-PDF generation için Laravel DomPDF kullanılacak
-Vergi hesaplaması basit (%20 KDV) olacak
-Email template'leri basit HTML olacak
-Chart'lar için Chart.js kullanılacak
+```
+
+## 🎓 Öğrenim Kazanımları
+
+### Laravel API
+
+- ✅ Karmaşık iş akışı yönetimi
+- ✅ PDF oluşturma (DomPDF/TCPDF)
+- ✅ Teklif numarası oluşturma
+- ✅ Vergi hesaplama mantığı
+- ✅ Durum iş akışı yönetimi
+- ✅ Mali hesaplamalar
+- ✅ Email notification system
+
+### Vue.js + Quasar
+
+- ✅ Dinamik form oluşturma
+- ✅ PDF görüntüleyici entegrasyonu
+- ✅ Yazdırma işlevi
+- ✅ Chart.js analitik için
+- ✅ Gelişmiş tablo operasyonları
+- ✅ Çok aşamalı form sihirbazı
+- ✅ Para birimi biçimi
+- ✅ Tarih seçici entegrasyonu
+
+### Genel Beceriler
+
+- ✅ İş akışı otomasyonu
+- ✅ Teklif oluşturma iş akışı
+- ✅ Müşteri ilişkileri yönetimi
+- ✅ Mali belge oluşturma
+- ✅ Hizmet kataloğu yönetimi
+- ✅ İş analitiği
+
+## 🚀 Geliştirme Adımları
+
+### 1. Backend (Laravel API)
+
+1. Migration'ları oluştur
+2. Model'leri ve ilişkileri tanımla
+3. Quote number generation logic
+4. PDF generation service
+5. Email notification system
+6. Tax calculation methods
+
+### 2. Frontend (Quasar)
+
+1. Business dashboard component'i
+2. Quote builder component'i
+3. PDF viewer component'i
+4. Customer management interface
+5. Service catalog interface
+6. Analytics dashboard
+
+### 3. Test ve Optimizasyon
+
+1. Quote generation flow'unu test et
+2. PDF creation'u test et
+3. Email notification'ları test et
+4. Financial calculation'ları test et
+
+## 📝 Notlar
+
+- Proje 2 kişilik grup için 3 günde tamamlanabilir
+- PDF generation için Laravel DomPDF kullanılacak
+- Vergi hesaplaması basit (%20 KDV) olacak
+- Email template'leri basit HTML olacak
+- Chart'lar için Chart.js kullanılacak
